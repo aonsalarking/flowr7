@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Petal Almanac — A Living Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Newsreader:ital,wght@0,400;0,500;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #F5F0E4;
+    --cream-deep: #EDE5D3;
+    --ink: #26331F;
+    --moss: #3D5138;
+    --moss-deep: #263420;
+    --clay: #8B5A3C;
+    --rose-accent: #B23A48;
+    --gold: #C68A3A;
+    --plum: #6E5A80;
+    --paper-line: rgba(38,51,31,0.14);
+    --shadow: 0 18px 40px -20px rgba(38,51,31,0.35);
+  }
+
+  *{ box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 90% 60% at 15% -10%, #EAE0C8 0%, transparent 55%),
+      radial-gradient(ellipse 80% 60% at 90% 0%, #E3ECDA 0%, transparent 55%),
+      linear-gradient(180deg, var(--cream) 0%, var(--cream-deep) 100%);
+    color: var(--ink);
+    font-family: 'Newsreader', serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Ambient background botanicals ---------- */
+  .ambient{
+    position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+  }
+  .ambient svg{ position:absolute; opacity:0.35; }
+  @media (prefers-reduced-motion: no-preference){
+    .ambient .sway1{ animation: sway 14s ease-in-out infinite; }
+    .ambient .sway2{ animation: sway 18s ease-in-out infinite reverse; }
+    .ambient .sway3{ animation: sway 11s ease-in-out infinite; }
+  }
+  @keyframes sway{
+    0%,100%{ transform: rotate(-2deg); }
+    50%{ transform: rotate(2deg); }
+  }
+
+  /* ---------- Layout ---------- */
+  .wrap{ position:relative; z-index:1; max-width:1180px; margin:0 auto; padding:0 28px 120px; }
+
+  header.hero{
+    padding: 84px 0 56px;
+    text-align:left;
+    border-bottom: 1px solid var(--paper-line);
+    margin-bottom: 56px;
+    position:relative;
+  }
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.18em;
+    font-size:12px;
+    color: var(--clay);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:''; width:26px; height:1px; background:var(--clay);
+  }
+  h1.title{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:500;
+    font-size: clamp(42px, 7vw, 84px);
+    line-height:0.98;
+    margin:0 0 20px;
+    color: var(--moss-deep);
+    max-width:14ch;
+  }
+  h1.title em{
+    font-style:italic;
+    font-weight:500;
+    color: var(--rose-accent);
+  }
+  .hero-sub{
+    font-size:19px;
+    max-width:56ch;
+    color:#3f4a37;
+    line-height:1.6;
+  }
+  .hero-meta{
+    margin-top:34px;
+    display:flex;
+    gap:36px;
+    flex-wrap:wrap;
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    color:var(--moss);
+    letter-spacing:0.03em;
+  }
+  .hero-meta span b{ color:var(--ink); font-weight:700; display:block; font-size:22px; font-family:'Fraunces',serif; font-weight:500; }
+
+  /* ---------- Grid ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 26px;
+  }
+
+  .card{
+    background: linear-gradient(160deg, #FBF8EF 0%, #F1E9D6 100%);
+    border: 1px solid var(--paper-line);
+    border-radius: 4px;
+    padding: 22px 18px 20px;
+    cursor:pointer;
+    position:relative;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset, 0 10px 24px -18px rgba(38,51,31,0.4);
+    transition: transform .35s ease, box-shadow .35s ease;
+    display:flex; flex-direction:column; align-items:center;
+    text-align:center;
+    outline-offset:4px;
+  }
+  .card:hover, .card:focus-visible{
+    transform: translateY(-6px);
+    box-shadow: var(--shadow);
+  }
+  .card:focus-visible{ outline: 2px solid var(--moss); }
+  .card:hover .flower-figure, .card:focus-visible .flower-figure{
+    transform: rotate(1.5deg) scale(1.03);
+  }
+
+  .card-tag{
+    align-self:flex-start;
+    font-family:'Space Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.08em;
+    color: var(--clay);
+    margin-bottom:6px;
+  }
+
+  .flower-figure{
+    width:100%;
+    height:150px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    transition: transform .5s ease;
+  }
+  .flower-figure svg{ overflow:visible; }
+
+  @media (prefers-reduced-motion: no-preference){
+    .card .flower-figure svg .bloom{
+      animation: idle-sway 6s ease-in-out infinite;
+      transform-origin: 100px 210px;
+    }
+    .card:nth-child(odd) .flower-figure svg .bloom{ animation-duration: 7.5s; }
+  }
+  @keyframes idle-sway{
+    0%,100%{ transform: rotate(-1deg); }
+    50%{ transform: rotate(1deg); }
+  }
+
+  .card-name{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:21px;
+    color: var(--moss-deep);
+    margin-top:14px;
+  }
+  .card-latin{
+    font-family:'Newsreader', serif;
+    font-style:italic;
+    font-size:14px;
+    color:#6b7261;
+    margin-top:3px;
+  }
+  .card-hint{
+    margin-top:12px;
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color: var(--plum);
+    opacity:0.75;
+  }
+
+  footer{
+    margin-top:80px;
+    padding-top:28px;
+    border-top:1px solid var(--paper-line);
+    font-family:'Space Mono', monospace;
+    font-size:11.5px;
+    color:#7a8070;
+    letter-spacing:0.03em;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+
+  /* ---------- Overlay / Specimen Sheet ---------- */
+  .overlay{
+    position:fixed; inset:0; z-index:50;
+    background: rgba(28,36,22,0.55);
+    backdrop-filter: blur(3px);
+    display:none; align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0; pointer-events:none;
+    transition: opacity .3s ease;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  .sheet{
+    background: linear-gradient(170deg,#FCFAF2 0%, #F3EBD8 100%);
+    max-width:920px; width:100%;
+    max-height:88vh;
+    overflow:auto;
+    border-radius:6px;
+    box-shadow: 0 40px 80px -20px rgba(20,26,15,0.55);
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    position:relative;
+    transform: translateY(18px) scale(0.98);
+    transition: transform .38s cubic-bezier(.2,.8,.2,1);
+  }
+  .overlay.open .sheet{ transform: translateY(0) scale(1); }
+
+  @media (max-width: 760px){
+    .sheet{ grid-template-columns: 1fr; }
+  }
+
+  .sheet-visual{
+    background:
+      radial-gradient(ellipse at 50% 20%, rgba(255,255,255,0.5), transparent 60%),
+      linear-gradient(200deg, #EFE7D2, #E2DAC2);
+    display:flex; align-items:center; justify-content:center;
+    padding:40px 20px;
+    border-right: 1px dashed var(--paper-line);
+    position:relative;
+    min-height:320px;
+  }
+  @media (max-width:760px){ .sheet-visual{ border-right:none; border-bottom:1px dashed var(--paper-line); } }
+
+  .sheet-visual .stamp{
+    position:absolute; top:20px; left:20px;
+    font-family:'Space Mono', monospace;
+    font-size:10.5px; letter-spacing:0.1em;
+    color: var(--clay);
+    border:1px solid var(--clay);
+    padding:4px 8px;
+    border-radius:2px;
+    opacity:0.8;
+  }
+
+  .sheet-info{
+    padding: 40px 38px 40px 34px;
+  }
+  .sheet-info .close-btn{
+    position:absolute; top:16px; right:16px;
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1px solid var(--paper-line);
+    background: rgba(255,255,255,0.7);
+    font-family:'Space Mono', monospace;
+    font-size:16px;
+    cursor:pointer;
+    color: var(--moss-deep);
+    display:flex; align-items:center; justify-content:center;
+    transition: background .2s ease, transform .2s ease;
+  }
+  .sheet-info .close-btn:hover{ background:#fff; transform:rotate(90deg); }
+
+  .sheet-info .kicker{
+    font-family:'Space Mono', monospace;
+    font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    color: var(--rose-accent);
+    margin-bottom:10px;
+  }
+  .sheet-info h2{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:38px;
+    margin:0 0 4px;
+    color: var(--moss-deep);
+    line-height:1.05;
+  }
+  .sheet-info .latin{
+    font-style:italic;
+    color:#6b7261;
+    font-size:17px;
+    margin-bottom:22px;
+  }
+
+  .field-row{
+    display:grid;
+    grid-template-columns: 110px 1fr;
+    gap:12px;
+    padding:12px 0;
+    border-top:1px solid var(--paper-line);
+    font-size:14.5px;
+  }
+  .field-row:last-of-type{ border-bottom:1px solid var(--paper-line); }
+  .field-row .label{
+    font-family:'Space Mono', monospace;
+    font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color: var(--clay);
+    padding-top:2px;
+  }
+  .field-row .value{ color:#333c2b; line-height:1.55; }
+
+  .sheet-note{
+    margin-top:22px;
+    background: rgba(110,90,128,0.08);
+    border-left:3px solid var(--plum);
+    padding: 14px 16px;
+    font-size:14.5px;
+    line-height:1.6;
+    border-radius:0 4px 4px 0;
+  }
+  .sheet-note .label{
+    font-family:'Space Mono', monospace;
+    font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
+    color: var(--plum);
+    display:block;
+    margin-bottom:6px;
+  }
+
+  @media (max-width:520px){
+    h1.title{ font-size: 44px; }
+    .sheet-info{ padding: 60px 24px 32px; }
+    .card{ padding:18px 14px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient" aria-hidden="true" id="ambient"></div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">A field guide, pressed into pixels</div>
+    <h1 class="title">The Petal <em>Almanac</em></h1>
+    <p class="hero-sub">Ten specimens, gathered from gardens, roadsides, temple ponds and greenhouse benches around the world. Touch any bloom to open its record — origin, meaning, and the strange little fact that makes it unforgettable.</p>
+    <div class="hero-meta">
+      <span><b id="count">10</b>specimens catalogued</span>
+      <span><b>13</b>plant families</span>
+      <span><b>5</b>continents of origin</span>
+    </div>
+  </header>
+
+  <main class="grid" id="grid" role="list"></main>
+
+  <footer>
+    <span>The Petal Almanac — Vol. I</span>
+    <span>Illustrated in vector, botanically inspired, drawn from field notes</span>
+  </footer>
+</div>
+
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="sheetName">
+  <div class="sheet" id="sheet">
+    <div class="sheet-visual" id="sheetVisual">
+      <span class="stamp" id="sheetStamp">No. 01</span>
+    </div>
+    <div class="sheet-info">
+      <button class="close-btn" id="closeBtn" aria-label="Close specimen record">✕</button>
+      <div class="kicker" id="sheetFamily">Family</div>
+      <h2 id="sheetName">Flower</h2>
+      <div class="latin" id="sheetLatin"><i>Genus species</i></div>
+
+      <div class="field-row">
+        <div class="label">Native to</div>
+        <div class="value" id="sheetOrigin"></div>
+      </div>
+      <div class="field-row">
+        <div class="label">Blooms</div>
+        <div class="value" id="sheetBloom"></div>
+      </div>
+      <div class="field-row">
+        <div class="label">Meaning</div>
+        <div class="value" id="sheetMeaning"></div>
+      </div>
+
+      <div class="sheet-note">
+        <span class="label">Field note</span>
+        <span id="sheetFact"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   PETAL / FLOWER SVG GENERATOR
+   Builds botanically-flavoured vector illustrations from a
+   small set of parameters per species — layered petals with
+   gradient shading, plus centers, stems and leaves.
+============================================================ */
+
+const PETAL_PATHS = {
+  round:   'M0,0 C-24,-18 -26,-48 0,-64 C26,-48 24,-18 0,0 Z',
+  pointed: 'M0,0 C-9,-28 -7,-58 0,-76 C7,-58 9,-28 0,0 Z',
+  ray:     'M0,0 C-5,-30 -4,-72 0,-90 C4,-72 5,-30 0,0 Z',
+  broad:   'M0,0 C-30,-20 -33,-50 0,-70 C33,-50 30,-20 0,0 Z',
+  notch:   'M0,0 C-16,-22 -19,-40 -8,-50 L0,-45 L8,-50 C19,-40 16,-22 0,0 Z',
+  lotus:   'M0,0 C-14,-36 -11,-86 0,-108 C11,-86 14,-36 0,0 Z',
+  orchidWing: 'M0,0 C-20,-14 -34,-34 -30,-56 C-27,-72 -10,-78 0,-66 C10,-78 27,-72 30,-56 C34,-34 20,-14 0,0 Z',
+  lily:    'M0,0 C-13,-30 -16,-64 -8,-88 C-3,-98 3,-98 8,-88 C16,-64 13,-30 0,0 Z',
+  spike:   'M0,0 C-6,-24 -6,-58 0,-82 C6,-58 6,-24 0,0 Z',
+  spoon:   'M0,0 C-4,-30 -12,-52 -10,-68 C-9,-78 9,-78 10,-68 C12,-52 4,-30 0,0 Z',
+  hibiscusPetal: 'M0,0 C-32,-10 -40,-38 -24,-58 C-12,-72 12,-72 24,-58 C40,-38 32,-10 0,0 Z'
+};
+
+let uid = 0;
+function nextId(prefix){ uid++; return prefix + uid; }
+
+function svgOpen(vb){ return `<svg viewBox="${vb}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">`; }
+
+function radialGrad(id, stops){
+  return `<radialGradient id="${id}" cx="42%" cy="30%" r="75%">
+    ${stops.map(s => `<stop offset="${s[0]}" stop-color="${s[1]}"/>`).join('')}
+  </radialGradient>`;
+}
+function linearGrad(id, stops, angle=90){
+  return `<linearGradient id="${id}" x1="0%" y1="0%" x2="0%" y2="100%" gradientTransform="rotate(${angle} 0.5 0.5)">
+    ${stops.map(s => `<stop offset="${s[0]}" stop-color="${s[1]}"/>`).join('')}
+  </linearGradient>`;
+}
+
+function petalLayer(shape, count, gradId, opts={}){
+  const {scale=1, rotOffset=0, spread=360, opacity=1, strokeColor=null} = opts;
+  const path = PETAL_PATHS[shape];
+  let g = `<g class="petal-layer" opacity="${opacity}">`;
+  for(let i=0;i<count;i++){
+    const angle = (spread/count)*i + rotOffset;
+    g += `<path d="${path}" fill="url(#${gradId})" transform="rotate(${angle}) scale(${scale})" ${strokeColor?`stroke="${strokeColor}" stroke-width="0.6"`:''}/>`;
+  }
+  g += `</g>`;
+  return g;
+}
+
+function stemAndLeaves(stemColor, leafGradId, opts={}){
+  const {leafY=40, height=210} = opts;
+  const lw = Math.max(0.35, height/210); // scale leaf size down for short card stems
+  return `
+    <path d="M0,0 C-2,${height*0.4} 3,${height*0.7} 0,${height}" stroke="${stemColor}" stroke-width="${Math.max(2.5,5*lw)}" fill="none" stroke-linecap="round"/>
+    <g transform="scale(${lw})">
+      <path d="M0,${leafY/lw} C-30,${leafY/lw-6} -46,${leafY/lw+18} -34,${leafY/lw+40} C-20,${leafY/lw+34} -8,${leafY/lw+18} 0,${leafY/lw}" fill="url(#${leafGradId})"/>
+      <path d="M0,${leafY/lw+34} C30,${leafY/lw+28} 46,${leafY/lw+52} 34,${leafY/lw+74} C20,${leafY/lw+68} 8,${leafY/lw+52} 0,${leafY/lw+34}" fill="url(#${leafGradId})"/>
+    </g>
+  `;
+}
+
+/* Shared framing so every species sits correctly inside both the
+   small card thumbnail and the large specimen-sheet illustration. */
+function frame(big){
+  return big
+    ? { vb: '-150 -150 300 520', cy: 300, stemH: 55, leafY: 20 }
+    : { vb: '-120 -120 240 220', cy: 80,  stemH: 14, leafY: 6  };
+}
+
+/* ---- Species-specific builders ---- */
+
+function buildRose(big){
+  const g1=nextId('g'), g2=nextId('g'), g3=nextId('g'), gl=nextId('g'), gc=nextId('g');
+  const f = frame(big);
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#F6D3D6'],['55%','#D9576B'],['100%','#8C2338']])}
+      ${radialGrad(g2,[['0%','#FBE4E2'],['55%','#E06E7C'],['100%','#A6304A']])}
+      ${radialGrad(g3,[['0%','#FFF0EC'],['60%','#EE8B92'],['100%','#B23A48']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#41582E']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-2)">
+        ${petalLayer('round',6,g3,{scale:1.55,rotOffset:0,opacity:0.98})}
+        ${petalLayer('round',6,g2,{scale:1.15,rotOffset:30,opacity:0.98})}
+        ${petalLayer('round',5,g1,{scale:0.75,rotOffset:12,opacity:1})}
+        ${petalLayer('round',4,g1,{scale:0.42,rotOffset:45,opacity:1})}
+        <circle r="7" fill="#7A1D2E"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildTulip(big){
+  const g1=nextId('g'), g2=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FFE1A8'],['45%','#F0813A'],['100%','#C24A1E']])}
+      ${radialGrad(g2,[['0%','#FFEFC6'],['50%','#F5A249'],['100%','#D06423']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-6)">
+        <path d="M-30,0 C-34,-58 -20,-100 0,-112 C20,-100 34,-58 30,0 C18,-14 -18,-14 -30,0 Z" fill="url(#${g1})"/>
+        <path d="M-16,0 C-20,-56 -10,-96 0,-108 C10,-96 20,-56 16,0 Z" fill="url(#${g2})" opacity="0.9"/>
+        <path d="M-30,0 C-34,-40 -30,-64 -20,-80 C-24,-46 -22,-18 -12,-2 Z" fill="#B4451B" opacity="0.55"/>
+        <path d="M30,0 C34,-40 30,-64 20,-80 C24,-46 22,-18 12,-2 Z" fill="#B4451B" opacity="0.55"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildSunflower(big){
+  const gPet=nextId('g'), gDisc=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  let florets='';
+  for(let i=0;i<40;i++){
+    const a = i*137.5;
+    const r = 3.2*Math.sqrt(i);
+    florets += `<circle cx="0" cy="0" r="1.6" fill="#5B3A14" transform="rotate(${a}) translate(0,${-r})"/>`;
+  }
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(gPet,[['0%','#FFE9A0'],['55%','#F7C331'],['100%','#D98A1B']])}
+      ${radialGrad(gDisc,[['0%','#8A5A22'],['70%','#6B4118'],['100%','#4A2B0E']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-4)">
+        ${petalLayer('ray',13,gPet,{scale:1.4,rotOffset:0})}
+        ${petalLayer('ray',13,gPet,{scale:1.15,rotOffset:13.8,opacity:0.95})}
+        <circle r="32" fill="url(#${gDisc})"/>
+        <g>${florets}</g>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildPeony(big){
+  const g1=nextId('g'), g2=nextId('g'), g3=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FFF3F2'],['55%','#F3B4C6'],['100%','#D9698D']])}
+      ${radialGrad(g2,[['0%','#FFE9EC'],['55%','#F0A0BB'],['100%','#C85A82']])}
+      ${radialGrad(g3,[['0%','#FFD8E0'],['55%','#E888A9'],['100%','#B8446D']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-2)">
+        ${petalLayer('round',7,g1,{scale:1.6,rotOffset:6})}
+        ${petalLayer('round',7,g2,{scale:1.25,rotOffset:32})}
+        ${petalLayer('round',6,g3,{scale:0.9,rotOffset:14})}
+        ${petalLayer('round',5,g3,{scale:0.55,rotOffset:40})}
+        <g>
+          ${[0,60,120,180,240,300].map(a=>`<circle r="2.2" fill="#E7B93B" transform="rotate(${a}) translate(0,-6)"/>`).join('')}
+        </g>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildPoppy(big){
+  const g1=nextId('g'), g2=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FF9E86'],['50%','#E23B3B'],['100%','#8E1A1F']])}
+      ${radialGrad(g2,[['0%','#FFC1AE'],['50%','#EB5847'],['100%','#A2231F']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-2)">
+        ${petalLayer('broad',4,g1,{scale:1.5,rotOffset:45})}
+        ${petalLayer('broad',4,g2,{scale:1.05,rotOffset:0,opacity:0.95})}
+        <circle r="14" fill="#241A12"/>
+        <circle r="10" fill="#3B2A1B"/>
+        ${[0,40,80,120,160,200,240,280,320].map(a=>`<line x1="0" y1="0" x2="0" y2="-13" stroke="#120C08" stroke-width="1.4" transform="rotate(${a})"/>`).join('')}
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildLavender(big){
+  const gFloret=nextId('g'), gl=nextId('g');
+  const s = big ? 1 : 0.42; // scale whole plant down for the card thumbnail
+  const spikeCount = big ? 22 : 22;
+  let spikes = '';
+  for(let i=0;i<spikeCount;i++){
+    const y = -i*9;
+    const wobble = (i%2===0)?6:-6;
+    spikes += `<ellipse cx="${wobble}" cy="${y}" rx="7" ry="5" fill="url(#${gFloret})" transform="rotate(${wobble*1.5}, ${wobble}, ${y})"/>`;
+  }
+  const vb = big ? '-90 -260 180 400' : '-100 -125 200 190';
+  const cy = big ? 140 : 78;
+  return `${svgOpen(vb)}
+    <defs>
+      ${radialGrad(gFloret,[['0%','#C9B3E8'],['55%','#8A67B8'],['100%','#5B3F8A']])}
+      ${linearGrad(gl,[['0%','#8AA36B'],['100%','#4C6337']])}
+    </defs>
+    <g transform="translate(0,${cy}) scale(${s})">
+      <path d="M0,0 C-2,-70 3,-140 0,-200" stroke="#5C7A45" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <path d="M0,-30 C-22,-36 -34,-18 -26,2" fill="url(#${gl})"/>
+      <path d="M0,-60 C22,-66 34,-48 26,-28" fill="url(#${gl})"/>
+      <g class="bloom">${spikes}</g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildCherryBlossom(big){
+  const g1=nextId('g'), gc=nextId('g'), gl=nextId('g');
+  const s = big ? 1 : 0.62;
+  const vb = big ? '-120 -170 240 340' : '-110 -110 220 190';
+  const cy = big ? 90 : 92;
+  return `${svgOpen(vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FFFFFF'],['55%','#FBCFDA'],['100%','#EE9BB4']])}
+      ${radialGrad(gc,[['0%','#F6D65A'],['100%','#D6A21E']])}
+      ${linearGrad(gl,[['0%','#8B6A4E'],['100%','#5C4530']])}
+    </defs>
+    <g transform="translate(0,${cy}) scale(${s})">
+      <path d="M0,0 C-6,20 8,40 0,70 M0,0 C10,-20 -30,-40 -46,-60" stroke="#7A5A3E" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g class="bloom" transform="translate(-46,-70)">
+        ${petalLayer('notch',5,g1,{scale:1.1})}
+        <circle r="4" fill="url(#${gc})"/>
+        ${[0,72,144,216,288].map(a=>`<circle r="1.1" fill="#D6912E" transform="rotate(${a}) translate(0,-6)"/>`).join('')}
+      </g>
+      <g class="bloom" transform="translate(-8,-108) scale(0.75)">
+        ${petalLayer('notch',5,g1,{scale:1.1})}
+        <circle r="4" fill="url(#${gc})"/>
+      </g>
+      <g class="bloom" transform="translate(20,-56) scale(0.6)">
+        ${petalLayer('notch',5,g1,{scale:1.1})}
+        <circle r="4" fill="url(#${gc})"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildOrchid(big){
+  const g1=nextId('g'), g2=nextId('g'), gl=nextId('g');
+  const s = big ? 1 : 0.6;
+  const vb = big ? '-120 -130 240 320' : '-110 -100 220 190';
+  const cy = big ? 50 : 38;
+  return `${svgOpen(vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FBEFFB'],['55%','#D9A6DE'],['100%','#8E4E9B']])}
+      ${radialGrad(g2,[['0%','#FFF6DE'],['50%','#F3D27E'],['100%','#C97A3B']])}
+      ${linearGrad(gl,[['0%','#5C7A45'],['100%','#324420']])}
+    </defs>
+    <g transform="translate(0,${cy}) scale(${s})">
+      <path d="M0,0 C-4,40 4,80 0,120" stroke="#4C6337" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <g class="bloom">
+        <path d="${PETAL_PATHS.orchidWing}" fill="url(#${g1})" transform="rotate(0) scale(1.3)"/>
+        <path d="${PETAL_PATHS.orchidWing}" fill="url(#${g1})" transform="rotate(72) scale(1.3)"/>
+        <path d="${PETAL_PATHS.orchidWing}" fill="url(#${g1})" transform="rotate(144) scale(1.3)"/>
+        <path d="${PETAL_PATHS.orchidWing}" fill="url(#${g1})" transform="rotate(216) scale(1.15)"/>
+        <path d="${PETAL_PATHS.orchidWing}" fill="url(#${g1})" transform="rotate(288) scale(1.15)"/>
+        <path d="M0,4 C-16,10 -20,26 -8,36 C0,42 4,34 0,26 C10,34 22,28 20,16 C18,6 8,2 0,4 Z" fill="url(#${g2})"/>
+        <circle r="3" fill="#8E4E9B" cy="6"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildDaisy(big){
+  const gPet=nextId('g'), gDisc=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(gPet,[['0%','#FFFFFF'],['70%','#F6F3E8'],['100%','#DCD6C0']])}
+      ${radialGrad(gDisc,[['0%','#FDE580'],['60%','#F3C232'],['100%','#C98A16']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-2)">
+        ${petalLayer('ray',16,gPet,{scale:1.0,rotOffset:0})}
+        <circle r="16" fill="url(#${gDisc})"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildLotus(big){
+  const g1=nextId('g'), g2=nextId('g'), gl=nextId('g');
+  const s = big ? 1 : 0.62;
+  const vb = big ? '-140 -150 280 320' : '-120 -100 240 190';
+  const cy = big ? 30 : 45;
+  return `${svgOpen(vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FFF3F5'],['55%','#F6B7C6'],['100%','#D46A88']])}
+      ${radialGrad(g2,[['0%','#FFE3E9'],['55%','#F19DB3'],['100%','#C4577A']])}
+      ${linearGrad(gl,[['0%','#5C8A52'],['100%','#33502C']])}
+    </defs>
+    <g transform="translate(0,${cy}) scale(${s})">
+      <ellipse cx="0" cy="30" rx="70" ry="18" fill="url(#${gl})" opacity="0.9"/>
+      <path d="M0,0 C-4,20 4,40 0,60" stroke="#3E552C" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <g class="bloom" transform="translate(0,-4)">
+        ${petalLayer('lotus',8,g2,{scale:1.05,rotOffset:22,opacity:0.9})}
+        ${petalLayer('lotus',6,g1,{scale:0.85,rotOffset:0})}
+        ${petalLayer('lotus',5,g1,{scale:0.5,rotOffset:36})}
+        <circle r="9" fill="#E7B93B"/>
+        <circle r="6" fill="#C98A16"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildLily(big){
+  const g1=nextId('g'), g2=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  const stamens = [0,55,110,180,250,305].map(a => `
+    <g transform="rotate(${a})">
+      <line x1="0" y1="0" x2="0" y2="-50" stroke="#A8672E" stroke-width="1.8"/>
+      <ellipse cx="0" cy="-53" rx="4.5" ry="7" fill="#7A3B1E" transform="rotate(20 0 -53)"/>
+    </g>`).join('');
+  const spots = [-24,-8,10,26,-16,18,-30,2].map((x,idx) => {
+    const y = -34 - (idx%3)*10;
+    return `<circle cx="${x}" cy="${y}" r="1.6" fill="#8A2E17" opacity="0.55"/>`;
+  }).join('');
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FFE7A8'],['45%','#F4903B'],['100%','#C24A1E']])}
+      ${radialGrad(g2,[['0%','#FFF3D0'],['50%','#F8B45E'],['100%','#D46B27']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-4)">
+        ${petalLayer('lily',6,g1,{scale:1.12,rotOffset:0})}
+        ${petalLayer('lily',6,g2,{scale:0.78,rotOffset:30,opacity:0.9})}
+        <g>${spots}</g>
+        ${stamens}
+        <circle r="3" fill="#8A4A1E"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildDahlia(big){
+  const g1=nextId('g'), g2=nextId('g'), g3=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FFD9E8'],['50%','#E23E82'],['100%','#9A1E52']])}
+      ${radialGrad(g2,[['0%','#FFEAF1'],['50%','#EE6B9C'],['100%','#B32A66']])}
+      ${radialGrad(g3,[['0%','#FFF4F8'],['50%','#F591B6'],['100%','#C4487D']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-2)">
+        ${petalLayer('pointed',10,g1,{scale:1.35,rotOffset:0})}
+        ${petalLayer('pointed',10,g2,{scale:1.0,rotOffset:18,opacity:0.95})}
+        ${petalLayer('pointed',8,g3,{scale:0.68,rotOffset:9})}
+        ${petalLayer('pointed',6,g3,{scale:0.4,rotOffset:30})}
+        <circle r="6" fill="#F7C331"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildChrysanthemum(big){
+  const g1=nextId('g'), g2=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FFF3C4'],['50%','#F0B429'],['100%','#B8781A']])}
+      ${radialGrad(g2,[['0%','#FFFAE0'],['50%','#F6CB55'],['100%','#CB8E22']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-2)">
+        ${petalLayer('spike',18,g1,{scale:1.3,rotOffset:0})}
+        ${petalLayer('spike',18,g2,{scale:1.0,rotOffset:10,opacity:0.92})}
+        ${petalLayer('spike',14,g1,{scale:0.68,rotOffset:5})}
+        ${petalLayer('spike',10,g2,{scale:0.4,rotOffset:16})}
+        <circle r="5" fill="#8A5A18"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildAnemone(big){
+  const g1=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  const stamens = Array.from({length:14}).map((_,i) => {
+    const a = i*(360/14);
+    return `<line x1="0" y1="0" x2="0" y2="-15" stroke="#2A1A2E" stroke-width="1.2" transform="rotate(${a})"/>`;
+  }).join('');
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FFFFFF'],['55%','#E9DDF2'],['100%','#B79BD1']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-2)">
+        ${petalLayer('round',7,g1,{scale:1.3,rotOffset:0})}
+        ${petalLayer('round',6,g1,{scale:0.95,rotOffset:26,opacity:0.9})}
+        <circle r="17" fill="#241826"/>
+        ${stamens}
+        <circle r="9" fill="#3B2540"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildHibiscus(big){
+  const g1=nextId('g'), g2=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FFB0A6'],['50%','#E9403F'],['100%','#9A1F1F']])}
+      ${radialGrad(g2,[['0%','#FFD3CC'],['50%','#F0685A'],['100%','#B2302A']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-2)">
+        ${petalLayer('hibiscusPetal',5,g1,{scale:1.05,rotOffset:0})}
+        ${petalLayer('hibiscusPetal',5,g2,{scale:0.72,rotOffset:36,opacity:0.85})}
+        <path d="M0,-4 C-3,-30 -3,-70 0,-96" stroke="#C6402E" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        <circle cx="0" cy="-96" r="5" fill="#E8B23A"/>
+        ${[-10,-4,3,9].map(dx=>`<circle cx="${dx}" cy="-98" r="2.4" fill="#F3CB5A"/>`).join('')}
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildIris(big){
+  const g1=nextId('g'), g2=nextId('g'), g3=nextId('g'), gl=nextId('g');
+  const s = big ? 1 : 0.6;
+  const vb = big ? '-140 -150 280 340' : '-120 -105 240 190';
+  const cy = big ? 90 : 62;
+  const fall = (rot) => `
+    <g transform="rotate(${rot})">
+      <path d="M0,0 C-16,20 -34,44 -30,72 C-27,90 8,92 12,74 C16,50 14,22 0,0 Z" fill="url(#${g1})"/>
+      <ellipse cx="-6" cy="44" rx="8" ry="18" fill="url(#${g3})" opacity="0.9" transform="rotate(-8)"/>
+    </g>`;
+  const standard = (rot) => `
+    <path d="M0,0 C-14,-22 -14,-50 0,-66 C14,-50 14,-22 0,0 Z" fill="url(#${g2})" transform="rotate(${rot})"/>`;
+  return `${svgOpen(vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#9C7FD1'],['55%','#6C48A8'],['100%','#432C72']])}
+      ${radialGrad(g2,[['0%','#B9A0E0'],['55%','#8264BE'],['100%','#5A3E92']])}
+      ${radialGrad(g3,[['0%','#FFF2A8'],['100%','#E8B93A']])}
+      ${linearGrad(gl,[['0%','#5C8A52'],['100%','#33502C']])}
+    </defs>
+    <g transform="translate(0,${cy}) scale(${s})">
+      <path d="M0,20 C-3,70 3,130 0,190" stroke="#3E6A38" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M-10,60 C-40,50 -50,90 -30,120 C-16,108 -8,84 -10,60 Z" fill="url(#${gl})"/>
+      <g class="bloom">
+        ${fall(20)}${fall(140)}${fall(260)}
+        ${standard(0)}${standard(120)}${standard(240)}
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildBirdOfParadise(big){
+  const g1=nextId('g'), g2=nextId('g'), g3=nextId('g'), gl=nextId('g');
+  const s = big ? 1 : 0.56;
+  const vb = big ? '-160 -170 320 380' : '-140 -115 280 210';
+  const cy = big ? 60 : 55;
+  return `${svgOpen(vb)}
+    <defs>
+      ${linearGrad(g1,[['0%','#F2A63A'],['100%','#D9721E']],20)}
+      ${linearGrad(g2,[['0%','#5C7FC9'],['100%','#2E4A96']],20)}
+      ${radialGrad(g3,[['0%','#5B7A48'],['100%','#2E4020']])}
+      ${linearGrad(gl,[['0%','#5C8A52'],['100%','#33502C']])}
+    </defs>
+    <g transform="translate(0,${cy}) scale(${s})">
+      <path d="M0,10 C-2,60 3,120 0,180" stroke="#3E6A38" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M-90,0 C-60,-30 20,-30 55,0 C20,14 -60,14 -90,0 Z" fill="url(#${g3})" transform="rotate(-8)"/>
+      <g transform="rotate(-8)">
+        <path d="M10,-4 C40,-46 90,-58 118,-40 C96,-24 62,-14 34,6 Z" fill="url(#${g1})"/>
+        <path d="M6,-2 C30,-56 76,-82 108,-72 C82,-50 50,-30 26,0 Z" fill="url(#${g1})" opacity="0.92"/>
+        <path d="M0,0 C18,-40 54,-64 82,-58 C58,-38 32,-16 14,8 Z" fill="url(#${g1})" opacity="0.85"/>
+        <path d="M8,4 C-6,-30 -4,-60 16,-72 C24,-46 22,-18 18,10 Z" fill="url(#${g2})"/>
+        <path d="M18,6 C10,-22 16,-48 34,-58 C38,-36 34,-12 26,10 Z" fill="url(#${g2})" opacity="0.9"/>
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+function buildProtea(big){
+  const g1=nextId('g'), g2=nextId('g'), g3=nextId('g'), gl=nextId('g');
+  const f = frame(big);
+  const fuzz = Array.from({length:34}).map((_,i) => {
+    const a = i*(360/34);
+    const len = 10 + (i%3)*4;
+    return `<line x1="0" y1="0" x2="0" y2="${-len}" stroke="#F2EADB" stroke-width="1.4" transform="rotate(${a})"/>`;
+  }).join('');
+  return `${svgOpen(f.vb)}
+    <defs>
+      ${radialGrad(g1,[['0%','#FBC7CE'],['55%','#D65C74'],['100%','#8C2A42']])}
+      ${radialGrad(g2,[['0%','#FDEADC'],['55%','#EBA98C'],['100%','#C06A4C']])}
+      ${radialGrad(g3,[['0%','#FFF7E8'],['100%','#E8C89C']])}
+      ${linearGrad(gl,[['0%','#7C9A5E'],['100%','#3E552C']])}
+    </defs>
+    <g transform="translate(0,${f.cy})">
+      ${stemAndLeaves('#4C6337', gl, {leafY:f.leafY, height:f.stemH})}
+      <g class="bloom" transform="translate(0,-2)">
+        ${petalLayer('pointed',14,g1,{scale:1.4,rotOffset:0})}
+        ${petalLayer('pointed',12,g2,{scale:1.0,rotOffset:13,opacity:0.95})}
+        ${petalLayer('pointed',9,g3,{scale:0.6,rotOffset:6})}
+        <circle r="14" fill="#D9CBA3"/>
+        ${fuzz}
+      </g>
+    </g>
+  ${'</svg>'}`;
+}
+
+/* ============================================================
+   SPECIES DATA
+============================================================ */
+const SPECIES = [
+  {
+    id:'rose', name:'Garden Rose', latin:'Rosa × damascena', family:'Rosaceae',
+    origin:'Asia Minor and the Middle East, now cultivated worldwide',
+    bloom:'Late spring through summer, with repeat flowering in modern cultivars',
+    meaning:'Devotion and romantic love — red roses have carried this meaning since antiquity, when the flower was linked to Aphrodite.',
+    fact:'It takes roughly two thousand hand-picked damask rose blossoms to distill a single gram of true rose oil, which is why the essence is prized above its weight in gold.',
+    build: buildRose
+  },
+  {
+    id:'tulip', name:'Tulip', latin:'Tulipa gesneriana', family:'Liliaceae',
+    origin:'Central Asia, later bred extensively in the Ottoman Empire and the Netherlands',
+    bloom:'Early to mid spring, often the first bold colour after winter',
+    meaning:'Perfect, unconditional love — a single tulip is traditionally read as a declaration.',
+    fact:'During "Tulip Mania" in 1637, a single rare bulb in the Dutch Republic could trade for more than the price of a canal house.',
+    build: buildTulip
+  },
+  {
+    id:'sunflower', name:'Sunflower', latin:'Helianthus annuus', family:'Asteraceae',
+    origin:'North America, domesticated by Indigenous peoples over 4,000 years ago',
+    bloom:'Mid to late summer',
+    meaning:'Adoration, loyalty, and warmth — named for its habit of turning to face the light.',
+    fact:'Young sunflower buds track the sun from east to west each day, a behaviour called heliotropism; mature flowers eventually settle facing east.',
+    build: buildSunflower
+  },
+  {
+    id:'peony', name:'Peony', latin:'Paeonia lactiflora', family:'Paeoniaceae',
+    origin:'Central and East Asia, especially China, where it is a traditional garden favourite',
+    bloom:'Late spring to early summer, in a short but spectacular window',
+    meaning:'Honour, prosperity, and a happy marriage — long called the "king of flowers" in China.',
+    fact:'A well-tended peony plant can live and rebloom for over a century, quietly outliving the gardener who planted it.',
+    build: buildPeony
+  },
+  {
+    id:'poppy', name:'Field Poppy', latin:'Papaver rhoeas', family:'Papaveraceae',
+    origin:'Europe, North Africa, and temperate Asia, common on disturbed farmland',
+    bloom:'Early to late summer',
+    meaning:'Remembrance and rest — worn each November in memory of soldiers lost in the First World War.',
+    fact:'Poppy seeds can lie dormant in undisturbed soil for decades; ploughed battlefield earth in Flanders famously burst into bloom in 1915.',
+    build: buildPoppy
+  },
+  {
+    id:'lavender', name:'English Lavender', latin:'Lavandula angustifolia', family:'Lamiaceae',
+    origin:'The Mediterranean basin, especially the hillsides of Provence',
+    bloom:'Mid to late summer',
+    meaning:'Calm, devotion, and quiet grace — long associated with cleansing and rest.',
+    fact:'Its name comes from the Latin lavare, "to wash" — Romans scented their communal baths with it nearly two thousand years ago.',
+    build: buildLavender
+  },
+  {
+    id:'sakura', name:'Cherry Blossom', latin:'Prunus serrulata', family:'Rosaceae',
+    origin:'Japan, Korea, and China, celebrated most widely in Japanese hanami tradition',
+    bloom:'A brief, intense window in early spring',
+    meaning:'The beauty and brevity of life — a central image in Japanese art and poetry.',
+    fact:'A single tree\'s blossoms typically last only one to two weeks before falling, which is precisely why the season is celebrated so fiercely.',
+    build: buildCherryBlossom
+  },
+  {
+    id:'orchid', name:'Moth Orchid', latin:'Phalaenopsis amabilis', family:'Orchidaceae',
+    origin:'Southeast Asia and northern Australia, growing wild on tree bark in humid forests',
+    bloom:'Can flower nearly year-round indoors, often for months at a stretch',
+    meaning:'Rare beauty, luxury, and strength — orchids were once reserved for royalty.',
+    fact:'Orchidaceae is the largest family of flowering plants on Earth, with more than 28,000 recognised species — more than mammals and birds combined.',
+    build: buildOrchid
+  },
+  {
+    id:'daisy', name:'Common Daisy', latin:'Bellis perennis', family:'Asteraceae',
+    origin:'Europe and western Asia, now naturalised on lawns worldwide',
+    bloom:'Almost continuously from early spring through autumn',
+    meaning:'Innocence, purity, and new beginnings — the classic "he loves me, he loves me not" flower.',
+    fact:'The name "daisy" comes from the Old English "day\'s eye," because the flower opens its petals at dawn and closes them again at dusk.',
+    build: buildDaisy
+  },
+  {
+    id:'lotus', name:'Sacred Lotus', latin:'Nelumbo nucifera', family:'Nelumbonaceae',
+    origin:'South and East Asia, rooted in the mud of ponds and slow rivers',
+    bloom:'Summer, with each flower opening for just a few days',
+    meaning:'Purity and rebirth — it rises clean from the mud, unstained by it.',
+    fact:'Lotus seeds are remarkably long-lived; viable seeds recovered from a dry lakebed in China were radiocarbon-dated at over 1,300 years old and still sprouted.',
+    build: buildLotus
+  },
+  {
+    id:'lily', name:'Tiger Lily', latin:'Lilium lancifolium', family:'Liliaceae',
+    origin:'China, Japan, and Korea, now grown in gardens worldwide',
+    bloom:'Mid to late summer',
+    meaning:'Confidence and wealth — in some traditions its bold, spotted petals symbolise pride.',
+    fact:'Unlike most lilies, the tiger lily rarely sets seed; it spreads mainly through small bulbils that form along its stem and drop to root nearby.',
+    build: buildLily
+  },
+  {
+    id:'dahlia', name:'Dahlia', latin:'Dahlia pinnata', family:'Asteraceae',
+    origin:'The mountains of Mexico and Central America',
+    bloom:'Mid-summer until the first frost',
+    meaning:'Inner strength and standing firm through change — it was Mexico\'s Aztec-era garden flower long before Europe saw one.',
+    fact:'A single dahlia flower head is technically hundreds of tiny florets in disguise, and the plant\'s genome carries roughly double the chromosomes of most flowering species.',
+    build: buildDahlia
+  },
+  {
+    id:'chrysanthemum', name:'Chrysanthemum', latin:'Chrysanthemum morifolium', family:'Asteraceae',
+    origin:'China, cultivated for over 2,500 years before spreading to Japan and the West',
+    bloom:'Autumn, often the last bold colour before winter',
+    meaning:'Loyalty, joy, and long life — it is Japan\'s imperial emblem, seated on the "Chrysanthemum Throne."',
+    fact:'Japan holds an annual holiday, the Festival of Happiness, built entirely around chrysanthemum viewing, and single show blooms are bred by hand for over a year.',
+    build: buildChrysanthemum
+  },
+  {
+    id:'anemone', name:'Anemone', latin:'Anemone coronaria', family:'Ranunculaceae',
+    origin:'The Mediterranean region',
+    bloom:'Early spring',
+    meaning:'Anticipation and fading hope — Greek myth ties it to Adonis, said to have sprung from his blood.',
+    fact:'Its name comes from the Greek anemos, "wind," since the petals were once believed to open only when the wind blew.',
+    build: buildAnemone
+  },
+  {
+    id:'hibiscus', name:'Hibiscus', latin:'Hibiscus rosa-sinensis', family:'Malvaceae',
+    origin:'East Asia, though now naturalised through the tropics worldwide',
+    bloom:'Nearly continuous in warm climates',
+    meaning:'Delicate beauty and a fleeting moment of glory — a single bloom often lasts just one day.',
+    fact:'The flower\'s long, protruding column fuses its stamens and pistil into one structure, a signature trait of the entire mallow family.',
+    build: buildHibiscus
+  },
+  {
+    id:'iris', name:'Iris', latin:'Iris germanica', family:'Iridaceae',
+    origin:'Southern Europe and the Mediterranean',
+    bloom:'Late spring to early summer',
+    meaning:'Wisdom, hope, and messages between realms — named for the Greek goddess who carried messages along the rainbow.',
+    fact:'Each bloom is built from two distinct petal types: upright "standards" and drooping "falls," a structure unique to the iris family.',
+    build: buildIris
+  },
+  {
+    id:'birdofparadise', name:'Bird of Paradise', latin:'Strelitzia reginae', family:'Strelitziaceae',
+    origin:'South Africa, along the Eastern Cape',
+    bloom:'Can flower on and off for most of the year in the right climate',
+    meaning:'Freedom, joy, and paradise on earth — named for its uncanny resemblance to a tropical bird\'s head in flight.',
+    fact:'Its beak-shaped bract holds several flowers in sequence, and in the wild it is pollinated almost exclusively by sunbirds landing on it as a perch.',
+    build: buildBirdOfParadise
+  },
+  {
+    id:'protea', name:'King Protea', latin:'Protea cynaroides', family:'Proteaceae',
+    origin:'The fynbos shrubland of South Africa\'s Cape region',
+    bloom:'Can appear almost year-round, peaking in late winter and spring',
+    meaning:'Diversity, courage, and transformation — it is South Africa\'s national flower.',
+    fact:'What looks like one flower is really a dense cluster of true flowers ringed by large, colourful bracts, and the plant survives wildfires by resprouting from an underground rootstock.',
+    build: buildProtea
+  }
+];
+
+/* ============================================================
+   RENDER GRID
+============================================================ */
+function $(id){ return document.getElementById(id); }
+function setText(id, val){ const el = $(id); if (el) el.textContent = val; }
+function setHTML(id, val){ const el = $(id); if (el) el.innerHTML = val; }
+
+const grid = $('grid');
+setText('count', SPECIES.length);
+
+SPECIES.forEach((sp, i) => {
+  try {
+    const card = document.createElement('button');
+    card.className = 'card';
+    card.setAttribute('role','listitem');
+    card.setAttribute('aria-label', `Open specimen record for ${sp.name}`);
+    card.style.border = 'none';
+    card.style.font = 'inherit';
+    card.innerHTML = `
+      <span class="card-tag">No. ${String(i+1).padStart(2,'0')} — ${sp.family}</span>
+      <div class="flower-figure">${sp.build(false)}</div>
+      <div class="card-name">${sp.name}</div>
+      <div class="card-latin"><i>${sp.latin}</i></div>
+      <div class="card-hint">Tap to open record →</div>
+    `;
+    card.addEventListener('click', () => openSheet(sp, i));
+    if (grid) grid.appendChild(card);
+  } catch (err) {
+    console.error('Failed to build card for', sp && sp.name, err);
+  }
+});
+
+/* ============================================================
+   OVERLAY / SPECIMEN SHEET
+============================================================ */
+const overlay = $('overlay');
+const sheetVisual = $('sheetVisual');
+let lastFocused = null;
+
+function openSheet(sp, i){
+  try {
+    lastFocused = document.activeElement;
+    setText('sheetStamp', `No. ${String(i+1).padStart(2,'0')}`);
+    setText('sheetFamily', sp.family);
+    setText('sheetName', sp.name);
+    setHTML('sheetLatin', `<i>${sp.latin}</i>`);
+    setText('sheetOrigin', sp.origin);
+    setText('sheetBloom', sp.bloom);
+    setText('sheetMeaning', sp.meaning);
+    setText('sheetFact', sp.fact);
+
+    if (sheetVisual) {
+      sheetVisual.innerHTML = `<span class="stamp">No. ${String(i+1).padStart(2,'0')}</span>` +
+        `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;">${sp.build(true)}</div>`;
+    }
+
+    if (overlay) {
+      overlay.style.display = 'flex';
+      overlay.classList.add('open');
+    }
+    const cb = $('closeBtn');
+    if (cb) cb.focus();
+    document.body.style.overflow = 'hidden';
+  } catch (err) {
+    console.error('openSheet failed', err);
+  }
+}
+
+function closeSheet(){
+  try {
+    if (overlay) {
+      overlay.classList.remove('open');
+      overlay.style.display = 'none';
+    }
+    document.body.style.overflow = '';
+    if (lastFocused && typeof lastFocused.focus === 'function') {
+      lastFocused.focus();
+    }
+  } catch (err) {
+    console.error('closeSheet failed', err);
+  }
+}
+
+const closeBtnEl = $('closeBtn');
+if (closeBtnEl) closeBtnEl.addEventListener('click', closeSheet);
+if (overlay) overlay.addEventListener('click', function(e){ if (e.target === overlay) closeSheet(); });
+document.addEventListener('keydown', function(e){ if (overlay && e.key === 'Escape' && overlay.classList.contains('open')) closeSheet(); });
+
+/* ============================================================
+   AMBIENT BACKGROUND DECORATION
+============================================================ */
+const ambient = document.getElementById('ambient');
+const leafSVG = (x,y,scale,rot,cls) => `
+  <svg class="${cls}" style="left:${x}px; top:${y}px; transform:rotate(${rot}deg) scale(${scale});" width="120" height="120" viewBox="-30 -30 60 60">
+    <path d="M0,0 C-20,-6 -30,10 -18,26 C-4,20 6,8 0,0 Z" fill="#5C7A45"/>
+  </svg>
+`;
+if (ambient) {
+  ambient.innerHTML =
+    leafSVG(-20, 60, 1.4, -20, 'sway1') +
+    leafSVG(window.innerWidth-100, 140, 1.1, 30, 'sway2') +
+    leafSVG(window.innerWidth-60, 640, 1.6, -10, 'sway3') +
+    leafSVG(10, 900, 1.2, 15, 'sway2');
+}
+</script>
+</body>
+</html>
